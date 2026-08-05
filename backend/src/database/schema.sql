@@ -1,6 +1,6 @@
--- ============================================
+
 -- API Key Management Platform — Full Schema
--- ============================================
+
 
 CREATE TABLE users (
   id            bigserial PRIMARY KEY,
@@ -28,7 +28,7 @@ CREATE TABLE api_keys (
   name           text NOT NULL,
   key_prefix     text NOT NULL,
   key_hash       text NOT NULL UNIQUE,
-  scopes         text[] DEFAULT '{read}',
+  scopes         text[] DEFAULT '{read}', 
   rate_limit     integer DEFAULT 60,
   expires_at     timestamp,
   last_used_at   timestamp,
@@ -51,7 +51,7 @@ CREATE TABLE api_usage (
 CREATE TABLE audit_logs (
   id             bigserial PRIMARY KEY,
   user_id        bigint REFERENCES users(id),
-  application_id bigint REFERENCES applications(id),
+  application_id bigint REFERENCES applications(id) ON DELETE SET NULL,
   entity_type    text,
   entity_id      bigint,
   action         text,

@@ -1,13 +1,28 @@
+// const { Pool } = require('pg');
+// const config = require('../config/env');
+
+// const pool = new Pool({
+//   connectionString: config.databaseUrl,
+// });
+
+// pool.on('error', (err) => {
+//   console.error('Unexpected error on idle PostgreSQL client', err);
+//   process.exit(1);
+// });
+
+// module.exports = pool;
+
 const { Pool } = require('pg');
-const config = require('../config/env');
+require('dotenv').config();
 
 const pool = new Pool({
-  connectionString: config.databaseUrl,
+  connectionString: process.env.DATABASE_URL,
 });
 
 pool.on('error', (err) => {
   console.error('Unexpected error on idle PostgreSQL client', err);
-  process.exit(1);
+  process.exit(-1);
 });
 
 module.exports = pool;
+
