@@ -62,7 +62,7 @@ async function revoke(id) {
 
 async function restore(id) {
   const result = await pool.query(
-    `UPDATE api_keys SET revoked_at = NULL WHERE id = $1 RETURNING *`,
+    `UPDATE api_keys SET revoked_at = NULL WHERE id = $1 AND revoked_at IS NOT NULL RETURNING *`,
     [id]
   );
   return result.rows[0];
