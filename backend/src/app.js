@@ -5,19 +5,30 @@ const authRoutes = require('./auth/auth.routes');
 const applicationRoutes = require('./applications/application.routes');
 const apiKeyNestedRoutes = require('./api-keys/apiKeyNested.routes');
 const apiKeyRoutes = require('./api-keys/apiKey.routes');
+const usageRoutes = require('./usage/usage.routes');
+const usageNestedRoutes = require('./usage/usageNested.routes');
+const analyticsRoutes = require('./usage/analytics.routes');
+const productRoutes = require('./products/product.routes');
+const orderRoutes = require('./orders/order.routes');
 const { errorHandler } = require('./middleware/errorHandler.middleware');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => res.json({ message: 'API is running' }));
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 app.use('/auth', authRoutes);
 app.use('/applications', applicationRoutes);
-app.use('/applications/:id/api-keys', apiKeyNestedRoutes); // nested: create + list
-app.use('/api-keys', apiKeyRoutes);                        // standalone: get/update/rotate/revoke/restore/delete
+app.use('/applications/:id/api-keys', apiKeyNestedRoutes);
+app.use('/api-keys', apiKeyRoutes);
+app.use('/applications/:id/usage', usageNestedRoutes);
+app.use('/usage', usageRoutes);
+app.use('/analytics', analyticsRoutes);
+
+// The real protected resources — this is what API keys actually guard now
+app.use('/products', productRoutes);
+app.use('/orders', orderRoutes);
 
 app.use((req, res) => res.status(404).json({ error: 'Route not found' }));
 app.use(errorHandler);
