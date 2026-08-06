@@ -61,6 +61,30 @@ CREATE TABLE audit_logs (
   created_at     timestamp DEFAULT now()
 );
 
+CREATE TABLE products (
+  id             bigserial PRIMARY KEY,
+  application_id bigint NOT NULL REFERENCES applications(id) ON DELETE CASCADE,
+  title          text NOT NULL,
+  category       text,
+  price          float NOT NULL,
+  quantity       int DEFAULT 0,
+  vendor         text,
+  created_at     timestamp DEFAULT now()
+);
+
+CREATE TABLE orders (
+  id             bigserial PRIMARY KEY,
+  application_id bigint NOT NULL REFERENCES applications(id) ON DELETE CASCADE,
+  product_id     bigint REFERENCES products(id) ON DELETE SET NULL,
+  quantity       int NOT NULL,
+  subtotal       float NOT NULL,
+  tax            float DEFAULT 0,
+  total          float NOT NULL,
+  created_at     timestamp DEFAULT now()
+);
+
+CREATE INDEX idx_products_application ON products(application_id);
+CREATE INDEX idx_orders_application ON orders(application_id);
 -- Indexes for the query patterns this platform actually needs
 CREATE INDEX idx_applications_user ON applications(user_id);
 CREATE INDEX idx_keys_application ON api_keys(application_id);
