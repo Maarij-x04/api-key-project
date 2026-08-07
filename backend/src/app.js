@@ -10,6 +10,7 @@ const usageNestedRoutes = require('./usage/usageNested.routes');
 const analyticsRoutes = require('./usage/analytics.routes');
 const productRoutes = require('./products/product.routes');
 const orderRoutes = require('./orders/order.routes');
+const dashboardRoutes = require('./dashboard/dashboard.routes');
 const { errorHandler } = require('./middleware/errorHandler.middleware');
 
 const app = express();
@@ -25,10 +26,9 @@ app.use('/api-keys', apiKeyRoutes);
 app.use('/applications/:id/usage', usageNestedRoutes);
 app.use('/usage', usageRoutes);
 app.use('/analytics', analyticsRoutes);
-
-// The real protected resources — this is what API keys actually guard now
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/dashboard', dashboardRoutes);
 
 app.use((req, res) => res.status(404).json({ error: 'Route not found' }));
 app.use(errorHandler);
