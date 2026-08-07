@@ -11,7 +11,10 @@ const analyticsRoutes = require('./usage/analytics.routes');
 const productRoutes = require('./products/product.routes');
 const orderRoutes = require('./orders/order.routes');
 const dashboardRoutes = require('./dashboard/dashboard.routes');
+const auditRoutes = require('./audit/audit.routes');
+const adminRoutes = require('./admin/admin.routes');
 const { errorHandler } = require('./middleware/errorHandler.middleware');
+
 
 const app = express();
 app.use(cors());
@@ -29,7 +32,8 @@ app.use('/analytics', analyticsRoutes);
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
 app.use('/dashboard', dashboardRoutes);
-
+app.use('/audit-logs', auditRoutes);
+app.use('/admin', adminRoutes);
 app.use((req, res) => res.status(404).json({ error: 'Route not found' }));
 app.use(errorHandler);
 
