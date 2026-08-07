@@ -8,7 +8,8 @@ CREATE TABLE users (
   email         text NOT NULL UNIQUE,
   password_hash text NOT NULL,
   created_at    timestamp DEFAULT now(),
-  updated_at    timestamp DEFAULT now()
+  updated_at    timestamp DEFAULT now(),
+  role text NOT NULL DEFAULT 'user'
 );
 
 CREATE TABLE applications (
