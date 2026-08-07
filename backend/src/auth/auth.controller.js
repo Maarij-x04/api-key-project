@@ -17,6 +17,7 @@ async function register(req, res, next) {
 
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await userModel.createUser({ name, email, passwordHash });
+    
 
     await auditService.logAction({
       userId: user.id,
@@ -26,7 +27,8 @@ async function register(req, res, next) {
       ipAddress: req.ip,
     });
 
-    const token = signToken({ id: user.id, email: user.email });
+    //const token = signToken({ id: user.id, email: user.email });
+    const token = signToken({ id: user.id, email: user.email, role: user.role });
     res.status(201).json({ user, token });
   } catch (err) {
     next(err);
@@ -58,7 +60,8 @@ async function login(req, res, next) {
       ipAddress: req.ip,
     });
 
-    const token = signToken({ id: user.id, email: user.email });
+    //const token = signToken({ id: user.id, email: user.email });
+    const token = signToken({ id: user.id, email: user.email, role: user.role });
     res.json({ user: { id: user.id, name: user.name, email: user.email }, token });
   } catch (err) {
     next(err);
