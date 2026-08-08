@@ -52,7 +52,7 @@ export default function Dashboard() {
     try {
       await authService.logout();
     } catch {
-      // ignore — logging out client-side regardless of server response
+      
     }
     localStorage.removeItem('token');
     localStorage.removeItem('user');
