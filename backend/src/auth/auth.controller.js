@@ -62,7 +62,7 @@ async function login(req, res, next) {
 
     //const token = signToken({ id: user.id, email: user.email });
     const token = signToken({ id: user.id, email: user.email, role: user.role });
-    res.json({ user: { id: user.id, name: user.name, email: user.email }, token });
+   res.json({ user: { id: user.id, name: user.name, email: user.email, role: user.role }, token });
   } catch (err) {
     next(err);
   }
