@@ -21,8 +21,8 @@ export default function Login() {
     try {
       const data = await authService.login({ email, password });
       localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      navigate('/');
+localStorage.setItem('user', JSON.stringify(data.user));
+navigate(data.user.role === 'admin' ? '/admin' : '/');
     } catch (err) {
       setError(err.message);
     } finally {
