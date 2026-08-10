@@ -12,11 +12,13 @@
 
 const crypto = require('crypto');
 
-function generateApiKey() {
+function generateApiKey(environment = 'production') {
   const randomPart = crypto.randomBytes(32).toString('hex');
-  const key = `sk_live_${randomPart}`;
+  const prefixTag = environment === 'production' ? 'sk_live_' : 'sk_test_';
+  const key = `${prefixTag}${randomPart}`;
   const prefix = `${key.slice(0, 15)}...`;
   return { key, prefix };
 }
+
 
 module.exports = { generateApiKey };

@@ -13,7 +13,7 @@ async function create(req, res, next) {
     const { name, scopes, rateLimit, expiresAt } = req.body;
     if (!name) return res.status(400).json({ error: 'name is required' });
 
-    const { key, prefix } = generateApiKey();
+    const { key, prefix } = generateApiKey(application.environment);
     const keyHash = hashKey(key);
 
     const saved = await apiKeyModel.createApiKey({
@@ -119,9 +119,11 @@ async function rotate(req, res, next) {
     const existing = await apiKeyModel.findByIdForUser(req.params.id, req.user.id);
     if (!existing) return res.status(404).json({ error: 'API key not found' });
 
+    const application = await applicationModel.findByIdAndUser(existing.application_id, req.user.id);
+
     await apiKeyModel.revoke(existing.id);
 
-    const { key, prefix } = generateApiKey();
+    const { key, prefix } = generateApiKey(application?.environment || 'production');
     const keyHash = hashKey(key);
 
     const newKey = await apiKeyModel.createApiKey({
