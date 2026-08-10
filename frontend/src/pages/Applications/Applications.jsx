@@ -117,11 +117,11 @@ export default function Applications() {
         </select>
       </div>
 
-      {error && <p className="text-danger text-sm mb-4 font-body">{error}</p>}
-
-      {loading ? (
-        <p className="text-text-secondary font-body">Loading applications…</p>
-      ) : applications.length === 0 ? (
+    {loading ? (
+  <p className="text-text-secondary font-body">Loading applications…</p>
+) : error ? (
+  <p className="text-danger font-body">{error}</p>
+) : applications.length === 0 ? ( 
         <Card className="text-center py-12">
           <p className="font-body text-text-secondary">No applications yet — create your first one.</p>
         </Card>

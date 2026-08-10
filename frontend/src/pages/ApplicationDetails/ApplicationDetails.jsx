@@ -111,13 +111,17 @@ export default function ApplicationDetails() {
     }
   }
 
-  if (loading) {
-    return <p className="text-text-secondary font-body px-6 py-10">Loading…</p>;
-  }
+ if (loading) {
+  return <p className="text-text-secondary font-body px-6 py-10">Loading…</p>;
+}
 
-  if (!app) {
-    return <p className="text-danger font-body px-6 py-10">Application not found.</p>;
-  }
+if (error) {
+  return <p className="text-danger font-body px-6 py-10">{error}</p>;
+}
+
+if (!app) {
+  return <p className="text-danger font-body px-6 py-10">Application not found.</p>;
+}
 
   return (
     <div className="min-h-screen px-6 py-10 max-w-5xl mx-auto">
