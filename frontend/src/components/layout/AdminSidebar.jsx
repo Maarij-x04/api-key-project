@@ -1,33 +1,33 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Boxes, Activity, ScrollText, User, LogOut, ShieldCheck } from 'lucide-react';
+import { ShieldCheck, Users, Boxes, ScrollText, LogOut, ArrowLeftRight } from 'lucide-react';
 import { authService } from '../../services/authService';
 
 const navItems = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
-  { to: '/applications', label: 'Applications', icon: Boxes },
-  { to: '/usage', label: 'Usage Logs', icon: Activity },
-  { to: '/audit-logs', label: 'Audit Logs', icon: ScrollText },
-  { to: '/profile', label: 'Profile', icon: User },
+  { to: '/admin', label: 'Overview', icon: ShieldCheck, end: true },
+  { to: '/admin/users', label: 'Users', icon: Users },
+  { to: '/admin/applications', label: 'Applications', icon: Boxes },
+  { to: '/admin/audit-logs', label: 'Audit Logs', icon: ScrollText },
 ];
 
-export default function Sidebar() {
+export default function AdminSidebar() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
 
   async function handleLogout() {
     try {
       await authService.logout();
-    } catch {
-      // ignore — log out client-side regardless
-    }
+    } catch {}
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate('/login');
   }
 
   return (
-    <aside className="w-60 shrink-0 min-h-screen glass border-r border-white/[0.06] p-5 flex flex-col">
-      <h1 className="font-display text-xl text-text-primary mb-8 px-2">API Platform</h1>
+    <aside className="w-64 shrink-0 min-h-screen bg-black/40 backdrop-blur-xl border-r border-secondary/20 p-5 flex flex-col">
+      <div className="flex items-center gap-2 mb-1 px-2">
+        <ShieldCheck className="w-5 h-5 text-secondary" />
+        <h1 className="font-display text-lg text-text-primary">Admin Console</h1>
+      </div>
+      <p className="font-body text-xs text-text-tertiary mb-8 px-2">Platform-wide control</p>
 
       <nav className="flex flex-col gap-1 flex-1">
         {navItems.map(({ to, label, icon: Icon, end }) => (
@@ -38,7 +38,7 @@ export default function Sidebar() {
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-xl font-body text-sm transition-colors ${
                 isActive
-                  ? 'bg-primary/15 text-primary'
+                  ? 'bg-secondary/15 text-secondary'
                   : 'text-text-secondary hover:bg-white/[0.05] hover:text-text-primary'
               }`
             }
@@ -49,7 +49,7 @@ export default function Sidebar() {
         ))}
       </nav>
 
-
+     
 
       <button
         onClick={handleLogout}
